@@ -2,7 +2,7 @@
 
 ![SCP:SL Plugin](https://img.shields.io/badge/SCP--SL%20Plugin-blue?style=for-the-badge)
 ![Language](https://img.shields.io/badge/Language-C%23-blueviolet?style=for-the-badge)
-![Downloads](https://img.shields.io/github/downloads/angelseraphim/AntiStrangulation/total?label=Downloads&color=333333&style=for-the-badge)
+![Downloads](https://img.shields.io/github/downloads/ui2506/AntiStrangulation/total?label=Downloads&color=333333&style=for-the-badge)
 
 ---
 AntiStrangelation is a **LabApi** plugin that allows you to control the mechanics of SCP-3114's strangulation and auto-spawn.
