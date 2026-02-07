@@ -1,16 +1,15 @@
 ﻿using HarmonyLib;
-using PlayerRoles.RoleAssign;
 using PlayerRoles;
-using System.Collections.Generic;
+using PlayerRoles.RoleAssign;
 
 namespace AntiStrangulation.Patches
 {
     [HarmonyPatch(typeof(ScpSpawner), nameof(ScpSpawner.AssignScp))]
     internal static class ScpSpawnerPatch
     {
-        private static bool Prefix(List<ReferenceHub> chosenPlayers, RoleTypeId scp, List<RoleTypeId> otherScps)
+        private static bool Prefix(RoleTypeId scp)
         {
-            if (Plugin.config.DisableAutoSpawn && scp == RoleTypeId.Scp3114)
+            if (Plugin.PluginConfig.DisableAutoSpawn && scp == RoleTypeId.Scp3114)
                 return false;
 
             return true;

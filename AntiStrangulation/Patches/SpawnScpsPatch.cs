@@ -14,7 +14,7 @@ namespace AntiStrangulation.Patches
     {
         private static bool Prefix(int targetScpNumber)
         {
-            if (Plugin.config.DisableAutoSpawn || PlayerRoleLoader.AllRoles.Any(x => x.Key == RoleTypeId.Scp3114 && x.Value is ISpawnableScp))
+            if (Plugin.PluginConfig.DisableAutoSpawn || PlayerRoleLoader.AllRoles.Any(x => x.Key == RoleTypeId.Scp3114 && x.Value is ISpawnableScp))
                 return true;
 
             ScpSpawner.EnqueuedScps.Clear();
@@ -26,7 +26,7 @@ namespace AntiStrangulation.Patches
 
             for (int i = 0; i < targetScpNumber; i++)
             {
-                RoleTypeId nextRole = Plugin.random.Next(0, ScpSpawner.MaxSpawnableScps) == 0 && !ScpSpawner.EnqueuedScps.Contains(RoleTypeId.Scp3114)
+                RoleTypeId nextRole = Plugin.Random.Next(0, ScpSpawner.MaxSpawnableScps) == 0 && !ScpSpawner.EnqueuedScps.Contains(RoleTypeId.Scp3114)
                     ? RoleTypeId.Scp3114
                     : ScpSpawner.NextScp;
 
@@ -38,7 +38,7 @@ namespace AntiStrangulation.Patches
 
             foreach (RoleTypeId role in ScpSpawner.EnqueuedScps.ToArray())
             {
-                Logger.Debug(role.ToString(), Plugin.config.Debug);
+                Logger.Debug(role.ToString(), Plugin.PluginConfig.Debug);
 
                 ScpSpawner.EnqueuedScps.Remove(role);
                 ScpSpawner.AssignScp(chosenPlayers, role, ScpSpawner.EnqueuedScps);

@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Mirror;
 using PlayerRoles.PlayableScps.Scp3114;
 using static PlayerRoles.PlayableScps.Scp3114.Scp3114Strangle;
 
@@ -9,9 +8,9 @@ namespace AntiStrangulation.Patches
 
     internal static class ProcessAttackRequestPatch
     {
-        private static bool Prefix(Scp3114Strangle __instance, NetworkReader reader, ref StrangleTarget? __result)
+        private static bool Prefix(ref StrangleTarget? __result)
         {
-            if (!Plugin.config.DisableStrangulation)
+            if (!Plugin.PluginConfig.DisableStrangulation)
                 return true;
             
             __result = null;

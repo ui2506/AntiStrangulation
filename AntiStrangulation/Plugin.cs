@@ -1,38 +1,57 @@
-﻿using HarmonyLib;
+﻿using AntiStrangulation.EventHandlers;
+using HarmonyLib;
+using LabApi.Features.Wrappers;
 using LabApi.Loader.Features.Plugins;
+using MEC;
 using System;
+using System.Collections.Generic;
 
 namespace AntiStrangulation
 {
-    public class Plugin : Plugin<Config>
+    public sealed class Plugin : Plugin<Config>
     {
-        public override string Name => "AntiStrangulation";
-        public override string Description => "AntiStrangulation";
-        public override string Author => "angelseraphim.";
-        public override Version Version => new Version(2, 4, 1);
-        public override Version RequiredApiVersion => new Version(1, 0, 2);
+        public override string Name { get; } = "AntiStrangulation";
+        public override string Description { get; } = "AntiStrangulation";
+        public override string Author { get; } = "ui-2506";
+        public override Version Version { get; } = new Version(2, 5, 0);
+        public override Version RequiredApiVersion { get; } = new Version(1, 1, 4);
 
-        internal static Config config;
-        internal static Random random;
+        internal static readonly Dictionary<Player, CoroutineHandle> StopStrangleCoroutine = new Dictionary<Player, CoroutineHandle>();
 
-        private Harmony harmony;
+        internal static Config PluginConfig { get; private set; }
+        internal static Random Random { get; private set; }
+
+        private Harmony _harmony;
+        private ScpEvents _scpEvents;
 
         public override void Enable()
         {
-            config = Config;
-            random = new Random(DateTime.Now.Second);
-            harmony = new Harmony(Name);
+            PluginConfig = Config;
+            Random = new Random(DateTime.Now.Second);
 
-            harmony.PatchAll();
+            _harmony = new Harmony(Name);
+            _harmony.PatchAll();
+
+            if (Config.RandomStopStrangulation)
+            {
+                _scpEvents = new ScpEvents();
+                _scpEvents.Register();
+            }
         }
 
         public override void Disable()
         {
-            harmony.UnpatchAll();
+            if (Config.RandomStopStrangulation)
+            {
+                _scpEvents.Unregister();
+                _scpEvents = null;
+            }
 
-            config = null;
-            random = null;
-            harmony = null;
+            _harmony.UnpatchAll();
+            _harmony = null;
+
+            PluginConfig = null;
+            Random = null;
         }
     }
 }
