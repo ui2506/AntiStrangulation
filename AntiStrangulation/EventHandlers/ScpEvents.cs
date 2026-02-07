@@ -31,12 +31,10 @@ namespace AntiStrangulation.EventHandlers
 
         private void OnStrangleStarted(Scp3114StrangleStartedEventArgs ev)
         {
-            int stopAfter = Plugin.Random.Next(1, 8);
-
             if (Plugin.StopStrangleCoroutine.TryGetValue(ev.Player, out CoroutineHandle coroutine) && coroutine.IsRunning)
                 Timing.KillCoroutines(coroutine);
 
-            Plugin.StopStrangleCoroutine[ev.Player] = Timing.RunCoroutine(Coroutines.StopStrangle(stopAfter, ev.Player, ev.Target));
+            Plugin.StopStrangleCoroutine[ev.Player] = Timing.RunCoroutine(Coroutines.StopStrangle(Plugin.Random.Next(1, 8), ev.Player, ev.Target));
         }
     }
 }

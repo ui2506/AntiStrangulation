@@ -75,6 +75,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Coroutines.cs" />
     <Compile Include="EventHandlers\ScpEvents.cs" />
+    <Compile Include="EventHandlers\ServerEvents.cs" />
     <Compile Include="Patches\DefaultUseRatePatch.cs" />
     <Compile Include="Patches\ScpSpawnerPatch.cs" />
     <Compile Include="Patches\ProcessAttackRequestPatch.cs" />
