@@ -13,7 +13,7 @@ namespace AntiStrangulation
         public override string Name { get; } = "AntiStrangulation";
         public override string Description { get; } = "AntiStrangulation";
         public override string Author { get; } = "ui-2506";
-        public override Version Version { get; } = new Version(2, 6, 0);
+        public override Version Version { get; } = new Version(2, 7, 0);
         public override Version RequiredApiVersion { get; } = new Version(1, 1, 4);
 
         internal static readonly Dictionary<Player, CoroutineHandle> StopStrangleCoroutine = new Dictionary<Player, CoroutineHandle>();

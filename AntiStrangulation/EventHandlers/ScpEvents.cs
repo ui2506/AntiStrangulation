@@ -7,20 +7,26 @@ namespace AntiStrangulation.EventHandlers
     {
         internal void Register()
         {
-            if (!Plugin.PluginConfig.RandomStopStrangulation)
-                return;
-            
-            LabApi.Events.Handlers.Scp3114Events.StrangleStarted += OnStrangleStarted;
-            LabApi.Events.Handlers.Scp3114Events.StrangleAborted += OnStrangleAborted;
+            if (Plugin.PluginConfig.DisableStrangulation)
+                LabApi.Events.Handlers.Scp3114Events.StrangleStarting += StrangleStarting;
+
+            if (Plugin.PluginConfig.RandomStopStrangulation && !Plugin.PluginConfig.DisableStrangulation)
+            {
+                LabApi.Events.Handlers.Scp3114Events.StrangleStarted += OnStrangleStarted;
+                LabApi.Events.Handlers.Scp3114Events.StrangleAborted += OnStrangleAborted;
+            }
         }
 
         internal void Unregister()
         {
-            if (!Plugin.PluginConfig.RandomStopStrangulation)
-                return;
+            if (Plugin.PluginConfig.DisableStrangulation)
+                LabApi.Events.Handlers.Scp3114Events.StrangleStarting -= StrangleStarting;
 
-            LabApi.Events.Handlers.Scp3114Events.StrangleStarted -= OnStrangleStarted;
-            LabApi.Events.Handlers.Scp3114Events.StrangleAborted -= OnStrangleAborted;
+            if (Plugin.PluginConfig.RandomStopStrangulation && !Plugin.PluginConfig.DisableStrangulation)
+            {
+                LabApi.Events.Handlers.Scp3114Events.StrangleStarted -= OnStrangleStarted;
+                LabApi.Events.Handlers.Scp3114Events.StrangleAborted -= OnStrangleAborted;
+            }
         }
 
         private void OnStrangleAborted(Scp3114StrangleAbortedEventArgs ev)
@@ -36,5 +42,7 @@ namespace AntiStrangulation.EventHandlers
 
             Plugin.StopStrangleCoroutine[ev.Player] = Timing.RunCoroutine(Coroutines.StopStrangle(Plugin.Random.Next(1, 8), ev.Player, ev.Target));
         }
+
+        private void StrangleStarting(Scp3114StrangleStartingEventArgs ev) => ev.IsAllowed = false;
     }
 }
